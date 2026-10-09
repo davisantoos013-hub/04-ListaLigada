@@ -156,9 +156,10 @@ void inserirElemento()
 	// vazamento de memória.
 	// -----------------------------------------------------------------
 	
+	// se a posição do elemento "valor" não for nula...
 	if (posicaoElemento(valor) != NULL) {
-		cout << "O elemento ja existe";
-		return;
+		cout << "O elemento ja existe. "; //avisa que o elemento já existe...
+		return; //e sai da função.
 	}
 
 
@@ -197,40 +198,52 @@ void excluirElemento()
 	// 1. Peça o número e use posicaoElemento() para saber se ele existe.
 	//    Se não existir, exiba "ELEMENTO NAO ENCONTRADO" e saia.
 	// 2. Caso A - o nó é o primeiro: atualize 'primeiro' para o segundo
-	//    nó ANTES de liberar o nó removido.
+	//    nó ANTES de liberar o nó removid5o.
 	// 3. Caso B - meio ou fim: percorra a lista com dois ponteiros
 	//    (anterior e atual), faça anterior->prox apontar para atual->prox
 	//    e só então libere 'atual'.
 	// Lembre-se: todo nó removido precisa de free(), e um nó liberado
 	// nunca mais deve ser usado.
-	// -----------------------------------------------------------------
-	int numero;
+	// -----------------------------------------------------------------s
+	int numero; 
 	NO* remover;
 	NO* posicao;
-	cout << "Digite o numero que deseja excluir";
+	NO* atual = primeiro;
+	NO* anterior;
+
+	//1. Pede o número e guarda a posição,
+	cout << "Digite o numero que deseja excluir: ";
 	cin >> numero;
 	posicao = posicaoElemento(numero);
 	
-
+	//verifica se o elemento não existe (posição nula)
 	if (posicao == NULL) {
 
-		cout << "ELEMENTO NAO ENCONTRADO ";
-		return;
+		cout << "ELEMENTO NAO ENCONTRADO "; //avisa
+		return; // e sai da função.
 	}
 
+	//2. Se existir, verifica se o elemento é o primeiro...
 	if (posicao == primeiro) {
 
-		remover = primeiro;
-		primeiro = primeiro->prox;
-		free(remover);		
+		remover = primeiro; //guarda a posição original do primeiro no "remover"
+		primeiro = primeiro->prox; //muda a posição do primeiro p/a do próximo
+		free(remover); //libera o nó do "remover" (posição original do primeiro)
 
 	}
-	else {
-		while (posicao != NULL) {
 
-			
+	//3. Se não for o primeiro...
+	else {
+		//enquanto "atual" for diferente da posição do elemento que queremos excluir
+		while (atual != posicao) {
+
+		anterior = atual; //o anterior vira o atual
+		atual = atual->prox; //o atual vira o próximo
 
 		}
+		// quando atual for a posição que buscamos...
+		anterior->prox = atual->prox; // o próximo do anterior vira o próximo do atual
+		free(atual); //libera o nó atual
 	}
 
 
@@ -246,16 +259,18 @@ void buscarElemento()
 	//    Retorno igual a NULL     -> exiba "ELEMENTO NAO ENCONTRADO"
 	// -----------------------------------------------------------------
 
+	// 1. pede o "numero"...
 	int numero;
 	cout << "Digite o numero que deseja buscar: ";
 	cin >> numero;
 
+	//2. Verifica a posição do elemento digitado
 	if (posicaoElemento(numero) != NULL) {
-		cout << "ENCONTRADO ";
+		cout << "ENCONTRADO "; //3. Se não for NULL, avisa que encontrou...
 
 	}
 	else {
-		cout << "ELEMENTO NAO ENCONTRADO ";
+		cout << "ELEMENTO NAO ENCONTRADO "; //Se for NULL, avisa que não encontrou.
 	}
 
 
